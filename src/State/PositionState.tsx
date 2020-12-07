@@ -1,41 +1,30 @@
-import React, {useEffect, useState} from "react";
-const initialState = {
-    nowLanguage: 'EN',
-    languages: [{value: 'UA'}, {value: 'RU'}, {value: 'EN'}],
-    isLanguage: false,
-    isAuth: false,
-    isModal: false,
-    openMenuAuth: ()=>{},
-    openMenuLanguage: ()=>{},
-    changeLanguage: (language: string)=>{},
-    openModal: (T: boolean)=>{}
-}
-export type HeaderType = typeof initialState
-export const HeaderContext = React.createContext(initialState)
+import React, {useContext, useState} from "react";
+import {BasketContext} from "./BasketState";
+import {requestPosition} from "../Request/Request";
+import {InitialPositionType, PositionType} from "./Types/PositionType";
 
-export const HeaderState = (props: any) => {
-    let [nowLanguage, setNewLanguage] = useState('UA')
-    let [isAuth, setAuth] = useState(false)
-    let [isLanguage, setLanguage] = useState(false)
-    let [isModal, setModal] = useState(false)
+export const PositionContext = React.createContext<InitialPositionType>({} as InitialPositionType)
 
-    useEffect(() => {}, [nowLanguage, isAuth, isLanguage])
+export const PositionState = (props: any) => {
 
-    const openMenuAuth = (): void => {
-        isAuth = !isAuth
-        setAuth(isAuth)
+    let [position, setPosition] = useState<PositionType>({} as PositionType)
+
+    let {toast, preloader} = useContext(BasketContext)
+
+    const getPosition = async (id: string): Promise<void> => {
+        preloader(true)
+        await requestPosition.getPosition(id)
+            .then(res =>  {
+                setPosition(res.data)
+                preloader(false)
+            })
+            .catch(error => {
+                toast(error.response.data.message)
+                preloader(false)
+            })
     }
-    const openMenuLanguage = (): void => {
-        isLanguage = !isLanguage
-        setLanguage(isLanguage)
-    }
-    const changeLanguage = (language: string): void => {
-        setNewLanguage(language)
-    }
-    const openModal = (T: boolean): void => {
-        setModal(T)
-    }
-    return <HeaderContext.Provider value={{nowLanguage,  languages: [{value: 'UA'}, {value: 'RU'}, {value: 'EN'}], isAuth, isLanguage, isModal, openMenuAuth, openMenuLanguage, changeLanguage, openModal}}>
+
+    return <PositionContext.Provider value={{position, getPosition}}>
         {props.children}
-    </HeaderContext.Provider>
+    </PositionContext.Provider>
 }

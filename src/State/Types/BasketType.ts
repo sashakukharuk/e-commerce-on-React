@@ -1,34 +1,16 @@
-import {FormItem} from "../../Components/Component/Form/createObject";
+import {PositionType} from "./PositionType";
 
-export type Profile = {
-    firstName: string;
-    lastName: string;
-    phone: number;
-    userId?: string;
-}
-
-export type AuthType = {
-    _id?: string;
-    email: string
-    password: string
-}
-
-export type TokenType = {
-    token: string
-}
-
-export type ValueType = {
-    values: string
-    name: string
-}
-
-export type InitialAuthType = {
-    email: FormItem
-    password: FormItem
-    firstName: FormItem
-    lastName: FormItem
-    phone: FormItem
-    applyField: (value: ValueType) => void
-    loginIn: () => void
-    register: () => void
+export type InitialBasketType = {
+    orders: PositionType[]
+    order: PositionType
+    message: string
+    hidden: boolean
+    isPreloader: boolean
+    addOrder: (order: PositionType, quantity: number) => void
+    removeOrder: (id: string) => void
+    compute: () => number
+    addOneOrder: (order: PositionType, quantity: number) => void
+    clearOrders: () => void
+    toast: (message: string) => void
+    preloader: (isPre: boolean) => void
 }

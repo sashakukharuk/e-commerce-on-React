@@ -1,31 +1,50 @@
-import {FormItem} from "../../Components/Component/Form/createObject";
-
-export type Profile = {
-    email: string
-    password: string
-    firstName: string;
-    lastName: string;
-    phone: string;
-    userId?: string;
+type Language = {
+    sizeL: string
+    quantityL: string
+    priceL: string
+    currencyL: string
+    personalL: string
+    firstNameL: string
+    lastNameL: string
+    phoneNumberL: string
+    cancelL: string
+    confirmL: string
+    logInL: string
+    registerL: string
+    logOutL: string
+    basketL: string
+    goodsL: string
+    nameL: string
+    deleteL: string
+    totalPriceL: string
+    registerTitleL: string
+    registerBtnL: string
+    emailL: string
+    passwordL: string
+    repetitionPasswordL: string
+    orderL: string
+    cityL: string
+    deliveryPointL: string
+    inBasketL: string
+    buyL: string
+    contactsL: string
+    phoneL: string
+    applyL: string
+    fromL: string
+    toL: string
+    requiredL: string
+    minL: string
+    maxL: string
+    addBasketL: string
+    cameOutL: string
+}
+export type InitialLanguageType = {
+    language: Language
+    key: string
+    applyLanguage: (name: string) => void
 }
 
-export type AuthType = {
-    _id?: string;
-    email: string
-    password: string
-}
-
-export type TokenType = {
-    token: string
-}
-
-export type InitialAuthType = {
-    email: FormItem
-    password: FormItem
-    firstName: FormItem
-    lastName: FormItem
-    phone: FormItem
-    disabled: boolean
-    loginIn: (form: AuthType) => void
-    register: (form: Profile) => void
+export type LanguageType = {
+    name: string
+    language: Language
 }

@@ -1,56 +1,44 @@
-import React, {useEffect, useState} from "react";
-import axios from 'axios'
-// type ImgSmall = {
-//     img: string;
-// }
-//
-// export type PositionType = {
-//     _id: string;
-//     imgMain: string;
-//     imgLarge: string;
-//     imgSmall: Array<ImgSmall>;
-//     name: string;
-//     price: number;
-//     size: string;
-//     overview: string;
-//     categoryId: string;
-//     quantity: number;
-// }
+import React, {useContext, useState} from "react";
+import {BasketContext} from "./BasketState";
+import {FilterType, initialPositionsState, PositionsType} from "./Types/PositionsType";
+import {initialForm} from "../Components/Component/Form/createObject";
+import {requestPositions} from "../Request/Request";
+import {LanguageContext} from "./LanguageState";
 
-const initialState = {
-    position: {
-        _id: '',
-        imgMain: '',
-        imgLarge: '',
-        imgSmall: [{img:''}],
-        name: '',
-        price: 1,
-        size: '',
-        overview: '',
-        categoryId: '',
-        quantity: 1
+export const PositionsContext = React.createContext<initialPositionsState>({} as initialPositionsState)
+
+export const PositionsState = (props: any) => {
+    const {language} = useContext(LanguageContext)
+    const from = initialForm('from', 'number', 'from', '', language.fromL, false, 0, 0)
+    const to = initialForm('to', 'number', 'to', '', language.toL, false, 3, 30)
+    const size = initialForm('size', 'text', 'size', '', '', false, 3, 50)
+    const [positions, setPositions] = useState<PositionsType[]>([])
+    const [disabled, setDisabled] = useState(false)
+    let [isSize, setIsSize] = useState(false)
+    const sizeValue = [{value: 'S'}, {value: 'M'}, {value: 'L'}, {value: 'XL'}, {value: 'XXL'}]
+    const {toast} = useContext(BasketContext)
+    const {preloader} = useContext(BasketContext)
+
+    const openCloseSize = () => {
+        isSize = !isSize
+        setIsSize(isSize)
     }
-}
-export type PositionType = typeof initialState
-export const PositionContext = React.createContext(initialState)
 
-export const PositionState = (props: any) => {
-    let [position, setPosition] = useState(initialState.position)
-    // let [quantity, setQuantity] = useState(1)
-
-    useEffect(() => {
-        getPosition()
-    }, [position])
-
-    const getPosition = async () => {
-        const data = await axios.get<PositionType>(`/api/position/${'id'}`).then(res => res.data)
-        setPosition(data.position)
+    const getPositions = async (id: string, filter: FilterType | undefined): Promise<void> => {
+        setDisabled(true)
+        preloader(true)
+        await requestPositions.getPositions(id, filter?.from || '', filter?.to || '', filter?.size || '')
+            .then(res => {
+                setPositions(res.data)
+                setDisabled(false)
+                preloader(false)
+            })
+            .catch(error => {
+                toast(error.response.data.message)
+                preloader(false)
+            })
     }
-    const dispatchQuantity = (quantity: number) => {
-        position.quantity = quantity
-        setPosition(position)
-    }
-    return <PositionContext.Provider value={{position}}>
+    return <PositionsContext.Provider value={{positions, from, to, size, disabled, isSize, sizeValue, openCloseSize, getPositions}}>
         {props.children}
-    </PositionContext.Provider>
+    </PositionsContext.Provider>
 }

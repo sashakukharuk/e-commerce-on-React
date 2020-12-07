@@ -1,7 +1,9 @@
 type ImgSmall = {
+    _id: string
     img: string;
 }
-export type PositionsType = {
+
+export type PositionType = {
     _id: string;
     imgMain: string;
     imgLarge: string;
@@ -14,7 +16,7 @@ export type PositionsType = {
     quantity: number;
 }
 
-export type initialPositionsState = {
-    positions: PositionsType[],
-    getPositions: (id: string) => void
+export type InitialPositionType = {
+    position: PositionType,
+    getPosition: (id: string) => void,
 }

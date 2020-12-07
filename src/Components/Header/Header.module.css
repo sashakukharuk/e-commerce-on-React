@@ -1,0 +1,99 @@
+/*HEADER*/
+.header {
+    height: 80px;
+    width: 100%;
+    background-color: #252525;
+}
+
+/*HEADER RIGHT*/
+.header .headerRight {
+    text-align: right;
+    display: inline-block;
+    height: 80px;
+    width: 100%;
+}
+
+/*LOGIN*/
+.header .headerRight .login {
+    display: inline-block;
+    text-align: center;
+    height: 100%;
+    width: 100px;
+}
+.header .headerRight .login h4 {
+    cursor: pointer;
+    color: white;
+    padding: 0 10px;
+    top: 50%;
+    transform: translateY(50%);
+    background-color: #252525;
+}
+.header .headerRight .login h4:hover {
+    color: gold;
+}
+.header__menu {
+    background-color: white;
+    position: absolute;
+    cursor: pointer;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+    0 3px 1px -2px rgba(0,0,0,0.12),
+    0 1px 5px 0 rgba(0,0,0,0.2);
+}
+.header__menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100px;
+}
+.header__menu ul a {
+    text-decoration: none;
+}
+.header__menu ul li {
+    text-transform: uppercase;
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+}
+.header__menu ul li:hover {
+    box-shadow:0 2px 2px 0 rgba(0,0,0,0.14),
+    0 2px 0 rgba(0,0,0,.1),
+    inset 0 0 20px rgba(0,0,0,.1);
+}
+
+/*BASKET*/
+.header .headerRight .basket {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    width: 100px;
+}
+.header .headerRight .basket img {
+    color: white;
+    bottom: 50%;
+    transform: translateY(50%);
+    /*width: 30px;*/
+    /*height: 30px;*/
+}
+.header .headerRight .basket img:hover {
+    color: gold;
+}
+
+/*LANGUAGE*/
+.header .headerRight .language {
+    display: inline-block;
+    text-align: center;
+    height: 100%;
+    width: 100px;
+}
+.header .headerRight .language h4 {
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    padding: 0 10px;
+    top: 50%;
+    transform: translateY(50%);
+    background-color: #252525;
+}
+.header .headerRight .language h4:hover {
+    color: gold;
+}

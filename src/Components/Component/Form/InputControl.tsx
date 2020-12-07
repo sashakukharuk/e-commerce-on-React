@@ -5,35 +5,43 @@ import {ValueType} from "./Form";
 
 type PropsType = {
     field: FormItem
-    disabled: boolean
+    isRequired: boolean
     applyField: (value: ValueType) => void
+    validateLanguage: {
+        required: string
+        min: string
+        max: string
+    }
 }
 
-export const FormControl2: React.FC<PropsType> = ({field, disabled, applyField}) => {
+export const InputControl: React.FC<PropsType> = ({field, isRequired, applyField, validateLanguage}) => {
     const [item, setItem] = useState(field)
     const [validate, setValidate] = useState( '')
     useEffect(() => {
-        if (disabled) {
+        if (isRequired) {
             onValidate(String(item.value))
         }
-    }, [disabled])
+    }, [isRequired])
+    useEffect(() => {
+        setItem(field)
+    }, [field.value])
     const onValidate = (values: string) => {
-        applyField({values: values, field: item})
+        applyField({values: values, field: item.name})
         setValidate('')
         if (item.require) {
             if (!values) {
-                return setValidate( 'Required')
+                return setValidate( validateLanguage.required)
             }
             if (item.min !== 0) {
                 if (values.length < item.min) {
-                    setValidate(`Must be ${item.min} characters or less`)
+                    setValidate(`${validateLanguage.min} ${item.min}`)
                 } else {
                     setValidate('')
                 }
             }
             if (item.min !== 0) {
                 if (values.length > item.max) {
-                    setValidate(`Must be ${item.max} characters or less`);
+                    setValidate(`${validateLanguage.max} ${item.max}`);
                 }
             }
         }

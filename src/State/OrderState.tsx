@@ -1,102 +1,74 @@
-import React, {useEffect, useState} from "react";
-import {requestAuth, requestProfile} from "../Request/Request";
-import { useHistory } from "react-router-dom";
-import {FormItem, initialForm} from "../Components/Component/Form/createObject";
+import React, {useContext, useEffect, useState} from "react";
+import {requestOrder, requestProfile} from "../Request/Request";
+import {useHistory} from "react-router-dom";
+import {initialForm} from "../Components/Component/Form/createObject";
+import {BasketContext} from "./BasketState";
+import {InitialOrderType, OrderFormType} from "./Types/OrderType";
+import {PositionType} from "./Types/PositionType";
+import {LanguageContext} from "./LanguageState";
 
-export type Profile = {
-    firstName: string;
-    lastName: string;
-    phone: number;
-    userId?: string;
-}
+export const OrderContext = React.createContext<InitialOrderType>({} as InitialOrderType)
 
-export type AuthType = {
-    _id?: string;
-    email: string
-    password: string
-}
+export const OrderState = (props: any) => {
+    const {toast, preloader} = useContext(BasketContext)
+    const history = useHistory();
+    const {language} = useContext(LanguageContext)
+    const initialFirstName = initialForm('firstName', 'text', 'firstName', '', language.firstNameL, true, 3, 50)
+    const initialLastName = initialForm('lastName', 'text', 'lastName', '', language.lastNameL, true, 3, 50)
+    const initialPhone = initialForm('phone', 'number', 'phone', '', language.phoneNumberL, true, 8, 8)
+    const email = initialForm('email', 'email', 'email', '', language.emailL, true, 0, 0)
+    const city = initialForm('city', 'text', 'city', '', language.cityL, true, 0, 0)
+    const novaPosh = initialForm('novaPosh', 'text', 'novaPosh', '', language.deliveryPointL, true, 0, 0)
 
-export type TokenType  = {
-    token: string
-}
-
-export type ValueType = {
-    values: string
-    name: string
-}
-
-export type InitialAuthType = {
-    email: FormItem
-    password: FormItem
-    firstName: FormItem
-    lastName: FormItem
-    phone: FormItem
-    applyField: (value: ValueType) => void
-    loginIn: () => void
-    register: () => void
-}
-
-export const AuthContext = React.createContext<InitialAuthType>({} as InitialAuthType)
-
-export const AuthState = (props: any) => {
-    const initialEmail = initialForm('email', 'email', 'email',  '',  'Email', true, 0, 0)
-    const initialPassword = initialForm('password', 'password', 'password',  '',  'Password', true, 3, 30)
-    const initialFirstName = initialForm('firstName', 'text', 'firstName',  '',  'First name', true, 3, 50)
-    const initialLastName = initialForm('lastName', 'text', 'lastName',  '',  'Last name', true, 3, 50)
-    const initialPhone = initialForm('phone', 'number', 'phone', '',  'Phone number', true, 8, 8)
-
-    let [email, setEmail] = useState(initialEmail)
-    let [password, setPassword] = useState(initialPassword)
-    let [firstName, setFirstName] = useState(initialFirstName)
-    let [lastName, setLastName] = useState(initialLastName)
-    let [phone, setPhone] = useState(initialPhone)
+    const [firstName, setFirstName] = useState(initialFirstName)
+    const [lastName, setLastName] = useState(initialLastName)
+    const [phone, setPhone] = useState(initialPhone)
+    const [disabled, setDisabled] = useState(false)
 
     useEffect(() => {
-    }, [email, password])
+        setState('label', language.firstNameL, language.lastNameL, language.phoneNumberL)
+    }, [language])
 
-    const history = useHistory();
 
-    const applyField = (value: ValueType) => {
-        switch (value.name) {
-            case 'email': {
-                const newEmail = {...email, value: value.values}
-                return setEmail(newEmail)
-            }
-            case 'password': {
-                const newPassword = {...password, value: value.values}
-                return setPassword(newPassword)
-            }
-            case 'firstName': {
-                const newFirstName = {...firstName, value: value.values}
-                return setFirstName(newFirstName)
-            }
-            case 'lastName': {
-                const newLastName = {...lastName, value: value.values}
-                return setLastName(newLastName)
-            }
-            case 'phone': {
-                const newPhone = {...phone, value: value.values}
-                return setPhone(newPhone)
-            }
-        }
-    }
-
-    const loginIn = async () => {
-        const auth = {email: email.value, password: password.value}
-        await requestAuth.postLogin(auth).then(res => {
-            localStorage.setItem('auth-token', res.token)
-            history.push('/')
+    const createOrder = async (form: OrderFormType, orders: PositionType[]) => {
+        preloader(true)
+        form.list = orders.map(o => {
+            return {positionId: o._id, quantity: o.quantity};
         })
-    }
-    const register = async () => {
-        const auth = {email: email.value, password: password.value}
-        const profile: Profile = {firstName: firstName.value, lastName: lastName.value, phone: Number(phone.value)}
-        await requestAuth.postRegister(auth).then(res => {
-            requestProfile.create(profile, res._id as string).then(res => res)
-        })
+        setDisabled(true)
+        await requestOrder.create(form)
+            .then(() => {
+                history.push('/')
+                setDisabled(false)
+                setDisabled(false)
+                preloader(false)
+            })
+            .catch(error => {
+                toast(error.response.data.message)
+                preloader(false)
+            })
     }
 
-    return <AuthContext.Provider value={{email, password, firstName, lastName, phone, applyField, loginIn, register}}>
+    const initialProfile = async () => {
+        const token = localStorage.getItem('auth-token')
+        token && await requestProfile.getProfile(token).then(res => {
+            setState('value', res.data.firstName, res.data.lastName, res.data.phone)
+        })
+        .catch(error => toast(error.response.data.message))
+    }
+
+    const setState = (key: string, first: string, last: string, number: string) => {
+        setFirstName({...firstName, [key]: first})
+        setLastName({...lastName, [key]: last})
+        setPhone({...phone, [key]: number})
+    }
+
+    return <OrderContext.Provider
+        value={{firstName, lastName, phone, email, city, novaPosh, disabled, createOrder, initialProfile}}>
         {props.children}
-    </AuthContext.Provider>
+    </OrderContext.Provider>
 }
+
+
+
+
