@@ -10,6 +10,7 @@ export type ActualCategoriesType = {
 }
 
 export type initialCategoriesState = {
+    activeId: string
     actualCategories: ActualCategoriesType[]
     getCategories: () => void
 }

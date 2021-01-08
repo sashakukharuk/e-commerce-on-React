@@ -1,4 +1,5 @@
 import {FormItem} from "../../Components/Component/Form/createObject";
+import {SuccessStr} from "./LanguageType";
 
 export type Profile = {
     email: string
@@ -25,7 +26,10 @@ export type InitialAuthType = {
     firstName: FormItem
     lastName: FormItem
     phone: FormItem
+    successStr: SuccessStr
     disabled: boolean
+    success: boolean
     loginIn: (form: AuthType) => void
     register: (form: Profile) => void
+    closeSuccessPage: () => void
 }

@@ -1,15 +1,20 @@
 import React, {useContext} from 'react'
 import m from './Modal.module.css'
-import {BasketContext} from "../../../State/BasketState";
 import {NavLink} from "react-router-dom";
-import {LanguageContext} from "../../../State/LanguageState";
+import {Button} from "../Button/Button";
+import {EventEmitter} from "@umijs/hooks/lib/useEventEmitter";
+import {PositionType} from "../../../State/Types/PositionType";
+import {LanguageContext} from "../../../State/Language/LanguageProvider";
+import {BasketContext} from "../../../State/Basket/BasketProvider";
 
-type ModalType = {
-    closeModal: () => void
+type PropsType = {
+    activeLi$: EventEmitter<string>
+    addOrders$: EventEmitter<{ orders: PositionType[] }>
 }
-export const Modal: React.FC<ModalType> = ({closeModal}) => {
+
+export const Modal = ({activeLi$, addOrders$}: PropsType) => {
     const {language} = useContext(LanguageContext)
-    const {orders, removeOrder, compute} = useContext(BasketContext)
+    const {orders, removeOrder, compute, openModal} = useContext(BasketContext)
     return <div className={m.modalOverlay}>
         <div className={m.modalWindow}>
             <div className={m.modalContent}>
@@ -41,8 +46,14 @@ export const Modal: React.FC<ModalType> = ({closeModal}) => {
                 </div>
             </div>
             <div className={m.modalFooter}>
-                <button className={m.btnLeft} onClick={closeModal}>{language.cancelL}</button>
-                <NavLink to={`/order`}><button disabled={orders.length === 0} className={m.btnRight} onClick={closeModal}>{language.confirmL}</button></NavLink>
+                <Button disabled={false} name={language.cancelL} onSubmit={openModal}/>
+                <NavLink to={`/order`}>
+                    <Button disabled={orders.length === 0} name={language.confirmL} onSubmit={() => {
+                        addOrders$.emit({orders})
+                        activeLi$.emit('')
+                        openModal()
+                    }}/>
+                </NavLink>
             </div>
         </div>
     </div>

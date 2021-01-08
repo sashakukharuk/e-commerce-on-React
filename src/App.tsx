@@ -1,5 +1,7 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import {BrowserRouter, Route} from 'react-router-dom'
+import {useEventEmitter} from '@umijs/hooks'
+
 import './App.css'
 import {Header} from './Components/Header/Header'
 import {Preloader} from './Components/Component/Preloader/Preloader'
@@ -10,47 +12,88 @@ import {Register} from './Components/Content/Auth/Register/Register'
 import {Order} from './Components/Content/Order/Order'
 import {Positions} from './Components/Content/Positions/Positions'
 import {Position} from './Components/Content/Positions/Position/Position'
-import {HeaderState} from './State/HeaderState'
-import {PositionsState} from './State/PositionsState'
-import {PositionState} from './State/PositionState'
-import {CategoriesState} from './State/CategoriesState'
-import {AuthState} from './State/AuthState'
-import {OrderState} from './State/OrderState'
 import {Message} from './Components/Component/Message/Message'
-import {BasketContext} from "./State/BasketState";
+import {Modal} from './Components/Component/Modal/Modal'
+import {PositionType} from "./State/Types/PositionType";
+import {PreloaderProvider} from "./State/Preloader/PreloaderProvider";
+import {MessageProvider} from "./State/Message/MessageProvider";
+import {HeaderProvider} from "./State/Header/HeaderProvider";
+import {PositionProvider} from "./State/Position/PositionProvider";
+import {PositionsProvider} from "./State/Positions/PositionsProvider";
+import {CategoriesProvider} from "./State/Categories/CategoriesProvider";
+import {BasketProvider} from "./State/Basket/BasketProvider";
+import {AuthProvider} from "./State/Auth/AuthProvider";
+import {OrderProvider} from "./State/Order/OrderProvider";
+import {MainPage} from "./Components/Content/Main/MainPage";
+import {MainProvider} from "./State/Main/MainProvider";
+import {ChatProvider} from "./State/Chat/ChatProvider";
+import {Chat} from "./Components/Content/Chat/Chat";
+import {Menu} from "./Components/Menu/Menu";
 
 function App() {
-  const {isPreloader} = useContext(BasketContext)
-  return <BrowserRouter>
-    <HeaderState>
-      <Header/>
-    </HeaderState>
-    <Message/>
-    {isPreloader && <Preloader/>}
-    <div className='row'>
-      <CategoriesState>
-        <Sidebar/>
-      </CategoriesState>
-      <div className='content'>
-        <AuthState>
-          <Route path='/login' render={() => <Login/>}/>
-        </AuthState>
-        <AuthState>
-          <Route path='/register' render={() => <Register/>}/>
-        </AuthState>
-        <OrderState>
-          <Route path='/order/:id?' render={() => <Order/>}/>
-        </OrderState>
-        <PositionsState>
-          <Route path='/positions/:id' render={() => <Positions/>}/>
-        </PositionsState>
-        <PositionState>
-          <Route path='/position/:id' render={() => <Position/>}/>
-        </PositionState>
-      </div>
-    </div>
-    <Footer/>
-  </BrowserRouter>
+    const activeLi$ = useEventEmitter<string>()
+    const preloader$ = useEventEmitter<boolean>()
+    const toast$ = useEventEmitter<string>()
+    const openModal$ = useEventEmitter<void>()
+    const addPositionOrder$ = useEventEmitter<{position: PositionType, quantity: number}>()
+    const addPositionBasket$ = useEventEmitter<{position: PositionType, quantity: number}>()
+    const addOrders$ = useEventEmitter<{orders: PositionType[]}>()
+    const clearOrders$ = useEventEmitter<void>()
+    const openChat$ = useEventEmitter<void>()
+
+    return <BrowserRouter>
+        <HeaderProvider toast$={toast$}>
+            <Header activeLi$={activeLi$} openModal$={openModal$}/>
+        </HeaderProvider>
+        <MessageProvider toast$={toast$}>
+            <Message/>
+        </MessageProvider>
+        <div>
+            <BasketProvider toast$={toast$} openModal$={openModal$} addPositionBasket$={addPositionBasket$} clearOrders$={clearOrders$}>
+                <Modal activeLi$={activeLi$} addOrders$={addOrders$}/>
+            </BasketProvider>
+        </div>
+        <div className='preloader'>
+            <PreloaderProvider preloader$={preloader$}>
+                <Preloader/>
+            </PreloaderProvider>
+        </div>
+        <div className='row'>
+            <CategoriesProvider toast$={toast$} preloader$={preloader$} activeLi$={activeLi$}>
+                <Sidebar activeLi$={activeLi$}/>
+            </CategoriesProvider>
+            <div className='content'>
+                <MainProvider preloader$={preloader$}>
+                    <Route exact path='/' render={() => <MainPage activeLi$={activeLi$}/>}/>
+                </MainProvider>
+                <AuthProvider toast$={toast$} preloader$={preloader$}>
+                    <Route path='/login' render={() => <Login/>}/>
+                </AuthProvider>
+                <AuthProvider toast$={toast$} preloader$={preloader$}>
+                    <Route path='/register' render={() => <Register/>}/>
+                </AuthProvider>
+                <OrderProvider toast$={toast$} preloader$={preloader$} addPositionOrder$={addPositionOrder$} addOrders$={addOrders$}>
+                    <Route path='/order/:id?' render={() => <Order clearOrders$={clearOrders$}/>}/>
+                </OrderProvider>
+                <PositionsProvider toast$={toast$} preloader$={preloader$}>
+                    <Route path='/positions/:id' render={() => <Positions/>}/>
+                </PositionsProvider>
+                <PositionProvider toast$={toast$} preloader$={preloader$}>
+                    <Route path='/position/:id' render={
+                        () => <Position
+                            addPositionBasket$={addPositionBasket$}
+                            addPositionOrder$={addPositionOrder$}
+                        />}
+                    />
+                </PositionProvider>
+                <ChatProvider openChat$={openChat$}>
+                    <Chat/>
+                </ChatProvider>
+                <Menu openModal$={openModal$} openChat$={openChat$}/>
+            </div>
+        </div>
+        <Footer/>
+    </BrowserRouter>
 }
 
 export default App;

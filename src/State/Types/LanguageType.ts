@@ -1,4 +1,10 @@
-type Language = {
+export type SuccessStr = {
+    h3: string
+    h4: string
+    a: string
+}
+
+export type Language = {
     sizeL: string
     quantityL: string
     priceL: string
@@ -37,6 +43,9 @@ type Language = {
     maxL: string
     addBasketL: string
     cameOutL: string
+    successStrAuth: SuccessStr
+    successStrOrder: SuccessStr
+
 }
 export type InitialLanguageType = {
     language: Language

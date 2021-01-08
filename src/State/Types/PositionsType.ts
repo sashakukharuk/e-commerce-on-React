@@ -23,7 +23,7 @@ export type PositionsType = {
     quantity: number
 }
 
-export type initialPositionsState = {
+export type initialPositionsType = {
     positions: PositionsType[]
     from: FormItem
     to: FormItem

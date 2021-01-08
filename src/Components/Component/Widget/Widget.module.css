@@ -1,0 +1,132 @@
+/*WIDGET*/
+.widget {
+    display: flex;
+    padding: 100px 37px;
+    height: 100%;
+}
+
+.photo {
+    width: 100%;
+    height: 100%;
+}
+.photo:hover {
+    opacity: .5;
+}
+
+/*WIDGET-BLOCK-ONE*/
+.widget .widgetBlockOne {
+    display: inline-block;
+    width: 610px;
+    height: 600px;
+}
+
+.widget .widgetBlockOne .mainBlock {
+    display: flex;
+}
+
+.widget .widgetBlockOne .mainBlockOne {
+    width: 380px;
+}
+
+.widget .widgetBlockOne .mainBlockOne .cardOne {
+    width: 380px;
+    height: 350px;
+}
+.widget .widgetBlockOne .mainBlockOne .cardTwo {
+    width: 380px;
+    height: 250px;
+}
+
+.widget .widgetBlockOne .mainBlockTwo {
+    width: 230px;
+}
+
+.widget .widgetBlockOne .mainBlockTwo .cardThree {
+    width: 230px;
+    height: 200px;
+}
+
+
+
+/*WIDGET-BLOCK-TWO*/
+.widget .widgetBlockTwo {
+    display: inline-block;
+    width: 490px;
+    height: 600px;
+}
+
+.widget .widgetBlockTwo .mainBlockThree {
+    width: 100%;
+}
+
+.widget .widgetBlockTwo .mainBlockThree .cardFour{
+    height: 360px;
+}
+
+.widget .widgetBlockTwo .mainBlockFour {
+    display: flex;
+}
+
+.widget .widgetBlockTwo .mainBlockFour .cardFive {
+    width: 50%;
+    height: 240px;
+}
+
+
+
+/*WIDGET-BLOCK-THREE*/
+.widget .widgetBlockThree {
+    display: inline-block;
+    width: 380px;
+    height: 600px;
+}
+
+.widget .widgetBlockThree .mainBlockFive {
+    width: 100%;
+}
+.widget .widgetBlockThree .mainBlockFive .cardSix {
+    height: 280px;
+}
+
+.widget .widgetBlockThree .mainBlockSix {
+    display: flex;
+}
+
+.widget .widgetBlockThree .mainBlockSix .cardSeven {
+    width: 50%;
+    height: 160px;
+}
+
+.widget .widgetBlockThree .mainBlockSeven {
+    display: flex;
+}
+
+.widget .widgetBlockThree .mainBlockSeven .cardEight {
+    width: 230px;
+    height: 160px;
+}
+.widget .widgetBlockThree .mainBlockSeven .cardNine {
+    width: 150px;
+    height: 160px;
+}
+
+@media (max-width: 1915px) {
+    .widget .widgetBlockThree {
+        display: none;
+    }
+}
+
+@media (max-width: 1535px) {
+    .widget .widgetBlockTwo {
+        display: none;
+    }
+}
+
+@media (max-width: 930px) {
+    .widget .widgetBlockTwo {
+        display: inline-block;
+    }
+    .widget .widgetBlockOne {
+        display: none;
+    }
+}

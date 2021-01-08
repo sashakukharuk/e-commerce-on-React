@@ -1,22 +1,17 @@
 import React, {useContext, useEffect} from 'react'
 import s from './Sidebar.module.css'
-import {NavLink} from "react-router-dom";
-import {CategoriesContext} from "../../State/CategoriesState";
+import {EventEmitter} from "@umijs/hooks/lib/useEventEmitter";
+import {Li} from "./Li";
+import {CategoriesContext} from "../../State/Categories/CategoriesProvider";
 
-export const Sidebar = () => {
-    const {actualCategories, getCategories} = useContext(CategoriesContext)
+export const Sidebar: React.FC<{ activeLi$: EventEmitter<string> }> = ({activeLi$}) => {
+    const {activeId, actualCategories, getCategories} = useContext(CategoriesContext)
     useEffect(() => {getCategories()}, [actualCategories.length])
     return <>
         <div className={s.sidebar}>
             <div className={s.menu}>
                 <ul className={s.menuPosition}>
-                    {actualCategories && actualCategories.map(category => <NavLink to={`/positions/${category._id}`}  key={category._id}>
-                        <li className={s.position}>
-                            <h3 className={s.pTitle}>
-                                {category.name}
-                            </h3>
-                        </li>
-                    </NavLink>)}
+                    {actualCategories && actualCategories.map(category => <Li key={category._id} category={category} activeId={activeId} activeLi$={activeLi$}/>)}
                 </ul>
             </div>
         </div>

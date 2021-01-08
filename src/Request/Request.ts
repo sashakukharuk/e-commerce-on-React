@@ -5,11 +5,21 @@ import {CategoriesType} from "../State/Types/CategoriesType";
 import {PositionType} from "../State/Types/PositionType";
 import {PositionsType} from "../State/Types/PositionsType";
 import {LanguageType} from "../State/Types/LanguageType";
+import {Popular} from "../State/Types/MainType";
 
 
 const instance = axios.create({
     baseURL: 'http://localhost:5000/api/'
 })
+
+export const socket = new WebSocket('ws://localhost:5000')
+
+
+export const requestMain = {
+    getPopular () {
+        return instance.get<Popular[]>(`/popular`)
+    },
+}
 
 export const requestLanguage = {
     getLanguage (name: string) {

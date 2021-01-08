@@ -3,16 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BasketState} from "./State/BasketState";
-import {LanguageState} from "./State/LanguageState";
+import {LanguageProvider} from "./State/Language/LanguageProvider";
 
 ReactDOM.render(
     <React.StrictMode>
-        <LanguageState>
-            <BasketState>
-                <App />
-            </BasketState>
-        </LanguageState>
+        <LanguageProvider>
+            <App />
+        </LanguageProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

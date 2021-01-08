@@ -1,0 +1,179 @@
+/*CHAT*/
+.chat {
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 0 100px 100px 0;
+    width: 310px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+}
+
+.chatHeader {
+    text-align: right;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: inline-block;
+}
+
+.chatHeader .hide {
+    text-align: center;
+    width: 30px;
+    display: inline-block;
+}
+
+.chatHeader .hide:hover {
+    background-color: rgba(0,0,0,.1);
+}
+
+.chatHeader .hide img {
+    margin: 2px 3px;
+    cursor: pointer;
+    width: 80%;
+    height: 80%;
+}
+
+.chatHeader .close {
+    text-align: center;
+    width: 30px;
+    display: inline-block;
+}
+
+.chatHeader .close:hover {
+    background-color: rgba(0,0,0,.1);
+}
+
+.chatHeader .close img {
+    margin: 2px 3px;
+    cursor: pointer;
+    width: 80%;
+    height: 80%;
+}
+
+.fieldMessage {
+    padding: 10px;
+    height: 300px;
+    max-height: 300px;
+    background-color:white;
+    overflow-y: scroll;
+    border-top: 1px solid rgba(160,160,160,0.2);
+}
+
+.fieldMessage::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fieldMessage::-webkit-scrollbar-track {
+    background-color: white;
+}
+
+.fieldMessage::-webkit-scrollbar-thumb {
+    background: #252525;
+}
+
+.fieldMessage .messageManager {
+    margin-bottom: 10px;
+}
+.fieldMessage .messageManager .infoMessage {
+    height: 100%;
+    margin-bottom: 5px;
+}
+
+.fieldMessage .messageManager .infoMessage span {
+    font-size: 15px;
+}
+
+.fieldMessage .messageManager .messageBody {
+    height: 100%;
+}
+
+.fieldMessage .messageManager .messageBody span {
+    color: white;
+    font-size: 20px;
+    display: inline-block;
+    padding: 5px;
+    background-color: gray;
+    border-radius: 5px;
+}
+
+.fieldMessage .messageClient {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.fieldMessage .messageClient .messageBody {
+    display: flex;
+    justify-content: flex-end;
+    right: 0;
+    height: 100%;
+}
+
+.fieldMessage .messageClient .messageBody span {
+    padding: 5px;
+    color: black;
+    font-size: 20px;
+    background-color: aquamarine;
+    border-radius: 5px;
+}
+
+
+.formChat {
+    background-color: white;
+    padding: 10px;
+    border-top: 1px solid rgba(160,160,160,0.2);
+    display: flex;
+}
+
+.formChat .fieldInput {
+    /*width: 80%;*/
+}
+
+.formChat .fieldInput textarea {
+    width: 219px;
+    min-width: 219px;
+    max-width: 219px;
+    min-height: 25px;
+    max-height: 25px;
+    border: none;
+    border-bottom: 1px solid #9e9e9e;
+    border-radius: 0;
+    outline: none;
+    font-size: 13px;
+    padding: 5px;
+    box-shadow: none;
+    box-sizing: content-box;
+}
+.formChat .fieldInput textarea:focus {
+    border-bottom: 1px solid #ffffff;
+    box-shadow: 0 2px 0 0 #252525;
+}
+
+.formChat .btnSend {
+    width: 52px;
+    height: 41px;
+}
+
+.formChat img {
+    width: 30px;
+    height: 30px;
+}
+
+.formChat .btnSend img {
+    margin: 5px 0 0 20px;
+    bottom: 0;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #252525;
+    background-color: white;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: background-color .2s ease-out;
+    cursor: pointer;
+}
+.formChat img:hover {
+    width: 32px;
+    height: 32px;
+}

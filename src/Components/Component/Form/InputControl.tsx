@@ -14,19 +14,21 @@ type PropsType = {
     }
 }
 
-export const InputControl: React.FC<PropsType> = ({field, isRequired, applyField, validateLanguage}) => {
+export const InputControl: React.FC<PropsType> = React.memo(({field, isRequired, applyField, validateLanguage}) => {
     const [item, setItem] = useState(field)
     const [validate, setValidate] = useState( '')
+
     useEffect(() => {
-        if (isRequired) {
-            onValidate(String(item.value))
-        }
+        isRequired && onValidate(String(item.value))
     }, [isRequired])
+
     useEffect(() => {
+        isRequired && onValidate(String(item.value))
+        setValidate('')
         setItem(field)
-    }, [field.value])
+    }, [field])
+
     const onValidate = (values: string) => {
-        applyField({values: values, field: item.name})
         setValidate('')
         if (item.require) {
             if (!values) {
@@ -46,6 +48,7 @@ export const InputControl: React.FC<PropsType> = ({field, isRequired, applyField
             }
         }
     }
+
     return <React.Fragment>
         {item.label && <label htmlFor={item.name} className={f.title}>{item.label}</label>}
         <input className={validate && f.warningInput}
@@ -54,11 +57,13 @@ export const InputControl: React.FC<PropsType> = ({field, isRequired, applyField
             type={item.type}
             onChange={(event) => {
                 setItem({...item, value: event.target.value})
+                applyField({values: event.target.value, field: item.name})
                 onValidate(event.target.value)
             }}
             onBlur={(event) => onValidate(event.target.value)}
             value={item.value}
+            autoComplete="off"
         />
         {validate ? <span className={f.warning}>{validate}</span> : null}
     </React.Fragment>
-}
+})

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import f from './Footer.module.css'
-import {LanguageContext} from "../../State/LanguageState";
+import {LanguageContext} from "../../State/Language/LanguageProvider";
 
 export const Footer = () => {
     const {language} = useContext(LanguageContext)

@@ -5,6 +5,11 @@
   height: 100%;
 }
 
+/*PRELOADER*/
+.preloader {
+  height: 15px;
+}
+
 /*CONTENT*/
 .content {
   width: 100%;
@@ -17,8 +22,5 @@
 @media (max-width: 750px) {
   .row {
     display: inline-block;
-  }
-  .content {
-    text-align: center;
   }
 }

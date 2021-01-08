@@ -10,7 +10,6 @@ export function initialForm<I, T, N, V, L, R, M, X>(
     return {id, type, name, value, label, require, min, max}
 }
 
-
 export type FormItem = {
     id: string
     type: string

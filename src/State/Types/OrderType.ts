@@ -1,5 +1,6 @@
 import {FormItem} from "../../Components/Component/Form/createObject";
 import {PositionType} from "./PositionType";
+import {SuccessStr} from "./LanguageType";
 
 export type OrderType = {
     _id: string;
@@ -26,13 +27,18 @@ export type OrderFormType = {
 }
 
 export type InitialOrderType = {
+    order: PositionType
+    orders: PositionType[]
     firstName: FormItem
     lastName: FormItem
     phone: FormItem
     email: FormItem
     city: FormItem
     novaPosh: FormItem
+    successStr: SuccessStr
     disabled: boolean
+    success: boolean
     createOrder: (form: OrderFormType, orders: PositionType[]) => void
     initialProfile: () => void
+    closeSuccessPage: () => void
 }
