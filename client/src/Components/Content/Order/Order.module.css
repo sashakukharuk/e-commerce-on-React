@@ -1,0 +1,138 @@
+/*ORDER*/
+.orderBlock {
+    display: flex;
+    padding: 100px 0 100px 40px;
+    justify-content: flex-end;
+}
+
+/*ORDER-FORM*/
+.orderBlock .orderForm {
+    display: inline-block;
+    min-width: 400px;
+    height: 100%;
+    position: relative;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+}
+
+.orderBlock .orderForm .orderContent {
+    padding: 24px;
+    border-radius: 0 0 2px 2px;
+}
+
+.orderBlock .orderForm .orderTitle {
+    display: block;
+    line-height: 32px;
+    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 300;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+
+.orderBlock .orderForm .inputField {
+    position: relative;
+    padding: 20px 0;
+    height: 100%;
+}
+
+
+/*ORDER-FORM-CONTENT-BTN*/
+.orderAction {
+    display: flex;
+    text-align: center;
+    background-color: inherit;
+    border-top: 1px solid rgba(160,160,160,0.2);
+    position: relative;
+    padding: 16px 24px;
+}
+
+/*ORDER-FORM-CONTENT-BTN-RIGHT*/
+.orderBtnLeft {
+    text-transform: uppercase;
+    text-align: left;
+    width: 50%;
+}
+/*ORDER-FORM-CONTENT-BTN-LEFT*/
+.orderBtnRight {
+    text-transform: uppercase;
+    text-align: right;
+    width: 50%;
+}
+.orderBtnLeft button {
+    margin: 0;
+    text-transform: uppercase;
+}
+.orderBtnRight button {
+    margin: 0;
+    text-transform: uppercase;
+}
+
+
+
+
+/*ORDER-BLOCK-CARD*/
+.orderBlock .orderBlockCard {
+    display: inline-block;
+}
+/*ORDER-CARD*/
+.orderBlock .orderBlockCard .orderCard {
+    display: inline-block;
+    min-width: 260px;
+    padding: 10px;
+    margin: 0 0 20px 20px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+
+}
+
+/*ORDER-CARD-FLEX*/
+.orderBlock .orderBlockCard-card .orderCard .orderCardFlex {
+    display: flex;
+}
+/*ORDER-CARD-PHOTO*/
+.orderBlock .orderBlockCard .orderCard .orderCardFlex .orderPhoto {
+    margin: auto;
+    width: 110px;
+    height: 110px;
+}
+.orderBlock .orderBlockCard .orderCard .orderCardFlex .orderPhoto img {
+    width: 100%;
+    height: 100%;
+}
+/*ORDER-CARD-BODY*/
+.orderBlock .orderBlockCard .orderCard .orderCardFlex .orderBody {
+    padding-left: 15px;
+}
+.orderBlock .orderBlockCard .orderCard .orderCardFlex .orderBody h4 {
+    margin: 0;
+    padding-bottom: 10px;
+    color: rgba(25,25,25,.7);
+}
+.orderBlock .orderBlockCard .orderCard .orderCardFlex .orderBody h4 strong {
+    color: black;
+    padding-left: 10px;
+}
+
+@media (max-width: 1370px) {
+    .orderBlock {
+        display: inline-block;
+    }
+    .orderBlock .orderBlockCard {
+        padding-top: 20px;
+    }
+}
+
+@media (max-width: 1160px) {
+    .orderBlock {
+        display: inline-block;
+    }
+    .orderBlock .orderBlockCard {
+        padding-top: 20px;
+    }
+}
+
+@media (max-width: 750px) {
+    .order-block {
+        padding-left: 0;
+    }
+}
